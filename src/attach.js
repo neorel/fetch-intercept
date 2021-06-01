@@ -20,14 +20,14 @@ function interceptor(fetch, ...args) {
 
   // Register fetch call
   promise = promise.then(args => {
-    request = new Request(...args);
-    return fetch(request);
-  }).then(response => {
-    response.request = request;
-    return response;
-  }).catch(error => {
-    error.request = request;
-    return Promise.reject(error);
+    const request = new Request(...args);
+    return fetch(request).then(response => {
+      response.request = request;
+      return response;
+    }).catch(error => {
+      error.request = request;
+      return Promise.reject(error);
+    });
   });
 
   // Register response interceptors
